@@ -28,9 +28,10 @@ app.post("/calories", async (req, res) => {
     const output = result.data.candidates?.[0]?.content?.parts?.[0]?.text;
     res.send({ calories: output || "לא ידוע" });
   } catch (e) {
-    console.error(e);
-    res.status(500).send({ error: "API call failed" });
-
+    console.error("🔥 Gemini API Error:", e.response?.data || e.message || e);
+    res.status(500).send({
+      error: e.response?.data?.error?.message || "API call failed",
+    });
   }
 });
 
